@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Disability Support Network</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Resources Page Specific Styles */
+        .resource-filters {
+            background: var(--light-color);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            flex: 1;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .resource-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-education { background: #E3F2FD; color: #1565C0; }
+        .category-medical { background: #E8F5E9; color: #2E7D32; }
+        .category-financial { background: #FFF3E0; color: #E65100; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>DisabilityConnect</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="resources.html" class="active">Resources</a>
+                <a href="support-groups.html">Support Groups</a>
+                <a href="services.html">Services</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main style="margin-top: 80px; padding: 2rem;">
+        <section class="page-header">
+            <h1>Disability Resources</h1>
+            <p>Find helpful information, guides, and support materials</p>
+        </section>
+
+        <section class="resource-filters">
+            <h2>Find Resources</h2>
+            <div class="filter-group">
+                <input type="text" id="searchInput" placeholder="Search resources...">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="education">Education</option>
+                    <option value="medical">Medical</option>
+                    <option value="financial">Financial</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="resource-grid" id="resourceGrid">
+            <!-- Resources will be populated by JavaScript -->
+        </section>
+    </main>
+
+    <footer>
+        <!-- Same footer as index.html -->
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="support-groups.html">Support Groups</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@disabilityconnect.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit" class="btn primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 DisabilityConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Resources Data
+        const resources = [
+            {
+                title: "Special Education Rights Guide",
+                category: "education",
+                description: "Comprehensive guide to understanding special education rights and advocacy.",
+                link: "#"
+            },
+            {
+                title: "Medical Equipment Directory",
+                category: "medical",
+                description: "Complete listing of medical equipment providers and support services.",
+                link: "#"
+            },
+            {
+                title: "Financial Assistance Programs",
+                category: "financial",
+                description: "Guide to government and private financial assistance programs.",
+                link: "#"
+            },
+            {
+                title: "Early Intervention Services",
+                category: "education",
+                description: "Information about early intervention programs and services.",
+                link: "#"
+            },
+            {
+                title: "Healthcare Navigation Guide",
+                category: "medical",
+                description: "Tips for navigating healthcare systems and insurance.",
+                link: "#"
+            },
+            {
+                title: "Tax Benefits Guide",
+                category: "financial",
+                description: "Overview of tax benefits and deductions for families.",
+                link: "#"
+            }
+        ];
+
+        // Filter and Display Resources
+        function displayResources(filtered = resources) {
+            const grid = document.getElementById('resourceGrid');
+            grid.innerHTML = filtered.map(resource => `
+                <div class="resource-card">
+                    <span class="resource-category category-${resource.category}">${resource.category}</span>
+                    <h3>${resource.title}</h3>
+                    <p>${resource.description}</p>
+                    <a href="${resource.link}" class="btn-link">Learn More →</a>
+                </div>
+            `).join('');
+        }
+
+        // Search and Filter Functionality
+        function filterResources() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+
+            const filtered = resources.filter(resource => {
+                const matchesSearch = resource.title.toLowerCase().includes(searchTerm) ||
+                                    resource.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = !category || resource.category === category;
+                return matchesSearch && matchesCategory;
+            });
+
+            displayResources(filtered);
+        }
+
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', filterResources);
+        document.getElementById('categoryFilter').addEventListener('change', filterResources);
+
+        // Initial Display
+        displayResources();
+    </script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Groups - Disability Support Network</title>
+    <style>
+        :root {
+            --primary-color: #2196F3;
+            --secondary-color: #1565C0;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        nav {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .groups-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .filters-section {
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .map-container {
+            height: 400px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .group-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .group-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .type-virtual { background: #E3F2FD; color: #1565C0; }
+        .type-in-person { background: #E8F5E9; color: #2E7D32; }
+        .type-hybrid { background: #FFF3E0; color: #E65100; }
+
+        .group-schedule {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .join-group-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .join-group-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .group-features {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            font-size: 0.875rem;
+            color: #666;
+            background: #f0f0f0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="resources.html">Resources</a>
+            <a href="support-groups.html" class="active">Support Groups</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px;">
+        <section class="page-header" style="text-align: center; padding: 3rem 1rem;">
+            <h1>Support Groups</h1>
+            <p>Connect with others who understand your journey</p>
+        </section>
+
+        <div class="groups-container">
+            <section class="filters-section">
+                <h3>Filter Groups</h3>
+                <div class="filter-options">
+                    <div class="filter-option active" data-filter="all">All Groups</div>
+                    <div class="filter-option" data-filter="virtual">Virtual</div>
+                    <div class="filter-option" data-filter="in-person">In-Person</div>
+                    <div class="filter-option" data-filter="hybrid">Hybrid</div>
+                </div>
+            </section>
+
+            <section class="map-container">
+                <h2>Find Local Support Groups</h2>
+                <p>Interactive map coming soon - showing nearby support group locations</p>
+            </section>
+
+            <section class="groups-grid" id="groupsGrid">
+                <!-- Groups will be populated by JavaScript -->
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 DisabilityConnect. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const groups = [
+            {
+                name: "Parents Support Circle",
+                type: "Virtual",
+                schedule: "Every Tuesday at 7:00 PM",
+                description: "A supportive community for parents of children with disabilities. Share experiences, get advice, and connect with other parents.",
+                currentMembers: 45,
+                features: ["Weekly Meetings", "Expert Speakers", "Resource Sharing"]
+            },
+            {
+                name: "Siblings Connection",
+                type: "In-Person",
+                schedule: "First Saturday of each month at 2:00 PM",
+                description: "A dedicated space for siblings of individuals with disabilities to share experiences and build lasting friendships.",
+                currentMembers: 28,
+                features: ["Monthly Activities", "Peer Support", "Social Events"]
+            },
+            {
+                name: "Caregivers Unite",
+                type: "Hybrid",
+                schedule: "Wednesdays at 6:30 PM",
+                description: "Support and resources for caregivers, combining in-person meetings with virtual options for flexibility.",
+                currentMembers: 63,
+                features: ["Flexible Attendance", "Professional Guidance", "Self-Care Focus"]
+            },
+            {
+                name: "Autism Parent Network",
+                type: "Virtual",
+                schedule: "Every Monday at 8:00 PM",
+                description: "Specialized support for parents of children with autism spectrum disorders. Connect, learn, and grow together.",
+                currentMembers: 52,
+                features: ["ASD Resources", "Behavioral Strategies", "Educational Support"]
+            },
+            {
+                name: "Young Adults Connection",
+                type: "In-Person",
+                schedule: "Bi-weekly Saturdays at 3:00 PM",
+                description: "A group for young adults with disabilities to socialize, make friends, and build independence.",
+                currentMembers: 34,
+                features: ["Social Activities", "Life Skills", "Peer Mentoring"]
+            },
+            {
+                name: "Special Education Advocacy",
+                type: "Hybrid",
+                schedule: "Third Thursday of each month at 6:00 PM",
+                description: "Learn about educational rights and advocacy strategies for children with special needs.",
+                currentMembers: 41,
+                features: ["Legal Resources", "IEP Support", "Advocacy Training"]
+            },
+            {
+                name: "Grandparents Circle",
+                type: "Virtual",
+                schedule: "Second Sunday of each month at 4:00 PM",
+                description: "Support group for grandparents of children with disabilities, focusing on their unique role and challenges.",
+                currentMembers: 25,
+                features: ["Family Support", "Experience Sharing", "Resource Access"]
+            },
+            {
+                name: "ADHD Family Support",
+                type: "In-Person",
+                schedule: "Every other Tuesday at 6:00 PM",
+                description: "Supporting families dealing with ADHD through education, strategies, and community connection.",
+                currentMembers: 38,
+                features: ["Behavior Management", "School Strategies", "Parent Training"]
+            }
+        ];
+
+        function displayGroups(filter = 'all') {
+            const grid = document.getElementById('groupsGrid');
+            const filteredGroups = filter === 'all' ? 
+                groups : 
+                groups.filter(group => group.type.toLowerCase() === filter);
+
+            grid.innerHTML = filteredGroups.map(group => `
+                <div class="group-card">
+                    <span class="group-type type-${group.type.toLowerCase()}">${group.type}</span>
+                    <h3>${group.name}</h3>
+                    <p>${group.description}</p>
+                    <div class="group-features">
+                        ${group.features.map(feature => `
+                            <span class="feature-tag">${feature}</span>
+                        `).join('')}
+                    </div>
+                    <div class="group-schedule">
+                        <strong>Schedule:</strong> ${group.schedule}<br>
+                        <strong>Current Members:</strong> ${group.currentMembers}
+                    </div>
+                    <button class="join-group-btn" onclick="joinGroup('${group.name}')">Join Group</button>
+                </div>
+            `).join('');
+        }
+
+        function joinGroup(groupName) {
+            alert(`Thank you for your interest in joining ${groupName}. A confirmation email will be sent with next steps.`);
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                displayGroups(this.dataset.filter);
+            });
+        });
+
+        // Initialize display
+        displayGroups();
+    </script>
+</body>
+</html>

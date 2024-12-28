@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Disability Support Network</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .services-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .services-filter {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-row input,
+        .filter-row select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            flex: 1;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .service-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .rating {
+            color: #FFC107;
+            margin: 1rem 0;
+        }
+
+        .provider-info {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>DisabilityConnect</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="resources.html">Resources</a>
+                <a href="support-groups.html">Support Groups</a>
+                <a href="services.html" class="active">Services</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main style="margin-top: 80px;">
+        <section class="page-header" style="text-align: center; padding: 3rem 1rem;">
+            <h1>Professional Services</h1>
+            <p>Find qualified care providers and support services</p>
+        </section>
+
+        <div class="services-container">
+            <section class="services-filter">
+                <h2>Find Services</h2>
+                <div class="filter-row">
+                    <input type="text" id="searchServices" placeholder="Search services...">
+                    <select id="serviceType">
+                        <option value="">All Types</option>
+                        <option value="therapy">Therapy</option>
+                        <option value="homecare">Home Care</option>
+                        <option value="education">Special Education</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="services-grid" id="servicesGrid">
+                <!-- Services will be populated by JavaScript -->
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Same footer as other pages -->
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="support-groups.html">Support Groups</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@disabilityconnect.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit" class="btn primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 DisabilityConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Services Data
+        const services = [
+            {
+                name: "Comprehensive Physical Therapy",
+                type: "therapy",
+                provider: "HealthFirst Rehabilitation",
+                rating: 4.8,
+                description: "Specialized physical therapy services for all ages and abilities.",
+                location: "Multiple Locations",
+                contact: "(555) 234-5678"
+            },
+            {
+                name: "In-Home Care Services",
+                type: "homecare",
+                provider: "CarePlus Solutions",
+                rating: 4.9,
+                description: "Professional in-home care and support services.",
+                location: "Service Area: 25 mile radius",
+                contact: "(555) 345-6789"
+            },
+            {
+                name: "Special Education Support",
+                type: "education",
+                provider: "Learning Bridge Services",
+                rating: 4.7,
+                description: "Specialized educational support and tutoring services.",
+                location: "Virtual & In-Person",
+                contact: "(555) 456-7890"
+            }
+        ];
+
+        // Display Services
+        function displayServices(filtered = services) {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = filtered.map(service => `
+                <div class="service-card">
+                    <span class="service-type">${service.type}</span>
+                    <h3>${service.name}</h3>
+                    <div class="rating">
+                        ${'★'.repeat(Math.floor(service.rating))}${'☆'.repeat(5-Math.floor(service.rating))}
+                        <span>(${service.rating})</span>
+                    </div>
+                    <p>${service.description}</p>
+                    <div class="provider-info">
+                        <strong>Provider:</strong> ${service.provider}<br>
+                        <strong>Location:</strong> ${service.location}<br>
+                        <strong>Contact:</strong> ${service.contact}
+                    </div>
+                    <button class="join-group-btn" onclick="bookService('${service.name}')">Book Service</button>
+                </div>
+            `).join('');
+        }
+
+        // Filter Services
+        function filterServices() {
+            const searchTerm = document.getElementById('searchServices').value.toLowerCase();
+            const type = document.getElementById('serviceType').value;
+
+            const filtered = services.filter(service => {
+                const matchesSearch = service.name.toLowerCase().includes(searchTerm) ||
+                                    service.description.toLowerCase().includes(searchTerm);
+                const matchesType = !type || service.type === type;
+                return matchesSearch && matchesType;
+            });
+
+            displayServices(filtered);
+        }
+
+        // Book Service Function
+        function bookService(serviceName) {
+            alert(Thank you for your interest in ${serviceName}. A representative will contact you shortly to schedule the service.);
+        }
+
+        // Event Listeners
+        document.getElementById('searchServices').addEventListener('input', filterServices);
+        document.getElementById('serviceType').addEventListener('change', filterServices);
+
+        // Initialize display
+        displayServices();
+    </script>
+</body>
+</html>
