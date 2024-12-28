@@ -1,1 +1,11 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/7XLS1QLQ)
+# README
+
+## Project Title
+A Platform for Families of Disabled Members
+
+## Description
+This project is a web-based platform that connects families of disabled members to support groups, resources, and services for disability care. The platform is designed to provide accessible information and foster a sense of community.
+
+## Running the Platform
+Ensure the `index.html` file is opened in the browser to run the platform. All navigation links are set to work correctly.
+
